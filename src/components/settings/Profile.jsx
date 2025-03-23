@@ -6,7 +6,7 @@ const Profile = () => {
 		<SettingSection icon={User} title={"Profile"}>
 			<div className='flex flex-col sm:flex-row items-center mb-6'>
 				<img
-					src='/src/assets/ecoride_logo.png'
+					src='/ecoride_logo.png'
 					alt='Profile'
 					className='rounded-full w-20 h-20 object-cover mr-4'
 				/>
