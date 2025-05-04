@@ -13,7 +13,7 @@ const SIDEBAR_ITEMS = [
 	},
 	// { name: "Products", icon: ShoppingBag, color: "#8B5CF6", href: "/products" },
 	{ name: "User Management", icon: Users, color: "#EC4899", href: "/users" },
-	{ name: "Finance", icon: DollarSign, color: "#10B981", href: "/sales" },
+	//{{ name: "Finance", icon: DollarSign, color: "#10B981", href: "/sales" },
 	//{ name: "Orders", icon: ShoppingCart, color: "#F59E0B", href: "/orders" },
 	//{ name: "Analytics", icon: TrendingUp, color: "#3B82F6", href: "/analytics" },
 	{ name: "Settings", icon: Settings, color: "#6EE7B7", href: "/settings" },
@@ -30,7 +30,7 @@ const Sidebar = () => {
 			}`}
 			animate={{ width: isSidebarOpen ? 256 : 80 }}
 		>
-			<div className='h-full bg-gray-800 bg-opacity-50 backdrop-blur-md p-4 flex flex-col border-r border-gray-700'>
+			<div className='h-full bg-gray-800 p-4 flex flex-col border-r border-gray-700'>
 				<motion.button
 					whileHover={{ scale: 1.1 }}
 					whileTap={{ scale: 0.9 }}
