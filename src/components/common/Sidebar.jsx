@@ -1,8 +1,9 @@
-import { BarChart2, DollarSign, Menu, Settings, ShoppingBag, ShoppingCart, TrendingUp, Users, LogOut } from "lucide-react";
+import { BarChart2, DollarSign, Menu, Settings, ShoppingBag, ShoppingCart, TrendingUp, Users, LogOut, Sun, Moon } from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useTheme } from "../../context/ThemeContext";
 
 const SIDEBAR_ITEMS = [
 	{
@@ -22,6 +23,7 @@ const SIDEBAR_ITEMS = [
 const Sidebar = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 	const { logout } = useAuth();
+	const { isDarkMode, toggleTheme } = useTheme();
 
 	return (
 		<motion.div
@@ -30,14 +32,15 @@ const Sidebar = () => {
 			}`}
 			animate={{ width: isSidebarOpen ? 256 : 80 }}
 		>
-			<div className='h-full bg-gray-800 p-4 flex flex-col border-r border-gray-700'>
+			<div className={`h-full ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} p-4 flex flex-col border-r transition-colors duration-300`}>
+				{/* Hamburger menu button - always visible */}
 				<motion.button
 					whileHover={{ scale: 1.1 }}
 					whileTap={{ scale: 0.9 }}
 					onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-					className='p-2 rounded-full hover:bg-gray-700 transition-colors max-w-fit'
+					className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} transition-colors max-w-fit mb-4`}
 				>
-					<Menu size={24} />
+					<Menu size={24} className={`${isDarkMode ? 'text-white' : 'text-gray-800'}`} />
 				</motion.button>
 				
 				<AnimatePresence>
@@ -60,12 +63,12 @@ const Sidebar = () => {
 				<nav className='mt-2 flex-grow'>
 					{SIDEBAR_ITEMS.map((item) => (
 						<Link key={item.href} to={item.href}>
-							<motion.div className='flex items-center p-4 text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors mb-2'>
+							<motion.div className={`flex items-center p-4 text-sm font-medium rounded-lg ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} transition-colors mb-2`}>
 								<item.icon size={20} style={{ color: item.color, minWidth: "20px" }} />
 								<AnimatePresence>
 									{isSidebarOpen && (
 										<motion.span
-											className='ml-4 whitespace-nowrap'
+											className={`ml-4 whitespace-nowrap ${isDarkMode ? 'text-white' : 'text-gray-800'}`}
 											initial={{ opacity: 0, width: 0 }}
 											animate={{ opacity: 1, width: "auto" }}
 											exit={{ opacity: 0, width: 0 }}
@@ -78,18 +81,44 @@ const Sidebar = () => {
 							</motion.div>
 						</Link>
 					))}
+					
+					{/* Theme toggle button as a nav item */}
+					<button
+						onClick={toggleTheme}
+						className={`flex items-center p-4 text-sm font-medium rounded-lg ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} transition-colors mb-2 w-full`}
+						title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+					>
+						{isDarkMode ? (
+							<Sun size={20} className="text-yellow-300" style={{ minWidth: "20px" }} />
+						) : (
+							<Moon size={20} className="text-blue-600" style={{ minWidth: "20px" }} />
+						)}
+						<AnimatePresence>
+							{isSidebarOpen && (
+								<motion.span
+									className={`ml-4 whitespace-nowrap ${isDarkMode ? 'text-white' : 'text-gray-800'}`}
+									initial={{ opacity: 0, width: 0 }}
+									animate={{ opacity: 1, width: "auto" }}
+									exit={{ opacity: 0, width: 0 }}
+									transition={{ duration: 0.2, delay: 0.3 }}
+								>
+									{isDarkMode ? "Light Mode" : "Dark Mode"}
+								</motion.span>
+							)}
+						</AnimatePresence>
+					</button>
 				</nav>
 
 				{/* Logout button */}
 				<button 
 					onClick={logout}
-					className='flex items-center p-4 text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors mt-auto'
+					className={`flex items-center p-4 text-sm font-medium rounded-lg ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} transition-colors mt-auto`}
 				>
 					<LogOut size={20} style={{ color: "#EF4444", minWidth: "20px" }} />
 					<AnimatePresence>
 						{isSidebarOpen && (
 							<motion.span
-								className='ml-4 whitespace-nowrap'
+								className={`ml-4 whitespace-nowrap ${isDarkMode ? 'text-white' : 'text-gray-800'}`}
 								initial={{ opacity: 0, width: 0 }}
 								animate={{ opacity: 1, width: "auto" }}
 								exit={{ opacity: 0, width: 0 }}

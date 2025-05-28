@@ -13,6 +13,7 @@ import {
   Loader
 } from "lucide-react";
 import UserDetailsModal from "./UserDetailsModal";
+import { useTheme } from "../../context/ThemeContext";
 
 const UsersTable = ({ 
   users = [], 
@@ -22,6 +23,7 @@ const UsersTable = ({
   onDelete,
   actionInProgress
 }) => {
+  const { isDarkMode } = useTheme();
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
@@ -106,9 +108,9 @@ const UsersTable = ({
   };
 
   return (
-    <div className="bg-gray-900 rounded-lg shadow-md overflow-hidden border border-gray-700">
+    <div className={`rounded-lg shadow-md overflow-hidden border ${isDarkMode ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'} transition-colors duration-300`}>
       {/* Filters */}
-      <div className="p-4 border-b border-gray-700 flex flex-col md:flex-row gap-4">
+      <div className={`p-4 border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} flex flex-col md:flex-row gap-4 transition-colors duration-300`}>
         <div className="relative flex-1">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <Search size={18} className="text-gray-400" />
@@ -116,7 +118,7 @@ const UsersTable = ({
           <input
             type="text"
             placeholder="Search users..."
-            className="block w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className={`block w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${isDarkMode ? 'border-gray-600 bg-gray-800 text-white placeholder-gray-400' : 'border-gray-300 bg-gray-50 text-gray-900 placeholder-gray-500'} transition-colors duration-300`}
             value={searchTerm}
             onChange={handleSearch}
           />
@@ -128,7 +130,7 @@ const UsersTable = ({
               <Filter size={18} className="text-gray-400" />
             </div>
             <select
-              className="block w-full pl-10 pr-10 py-2 border border-gray-600 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent appearance-none"
+              className={`block w-full pl-10 pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent appearance-none ${isDarkMode ? 'border-gray-600 bg-gray-800 text-white' : 'border-gray-300 bg-gray-50 text-gray-900'} transition-colors duration-300`}
               value={roleFilter}
               onChange={handleRoleFilter}
             >
@@ -143,7 +145,7 @@ const UsersTable = ({
               <Filter size={18} className="text-gray-400" />
             </div>
             <select
-              className="block w-full pl-10 pr-10 py-2 border border-gray-600 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent appearance-none"
+              className={`block w-full pl-10 pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent appearance-none ${isDarkMode ? 'border-gray-600 bg-gray-800 text-white' : 'border-gray-300 bg-gray-50 text-gray-900'} transition-colors duration-300`}
               value={statusFilter}
               onChange={handleStatusFilter}
             >
@@ -158,30 +160,30 @@ const UsersTable = ({
 
       {/* Table */}
       <div className="overflow-x-auto max-h-[600px] overflow-y-auto">
-        <table className="min-w-full divide-y divide-gray-700">
-          <thead className="bg-gray-800 sticky top-0 z-10">
+        <table className={`min-w-full divide-y ${isDarkMode ? 'divide-gray-700' : 'divide-gray-200'} transition-colors duration-300`}>
+          <thead className={`${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'} sticky top-0 z-10 transition-colors duration-300`}>
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+              <th className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}>
                 User
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+              <th className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}>
                 Contact
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+              <th className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}>
                 Role
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+              <th className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}>
                 Status
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">
+              <th className={`px-6 py-3 text-right text-xs font-medium uppercase tracking-wider ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}>
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="bg-gray-900 divide-y divide-gray-700">
+          <tbody className={`divide-y ${isDarkMode ? 'bg-gray-900 divide-gray-700' : 'bg-white divide-gray-200'} transition-colors duration-300`}>
             {users.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-6 py-12 text-center text-gray-400">
+                <td colSpan={5} className={`px-6 py-12 text-center ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} transition-colors duration-300`}>
                   <div className="flex flex-col items-center justify-center">
                     <AlertCircle size={32} className="mb-2" />
                     <p>No users found matching your filters</p>
@@ -190,14 +192,14 @@ const UsersTable = ({
               </tr>
             ) : (
               users.map((user) => (
-                <tr key={user._id} className="hover:bg-gray-800">
+                <tr key={user._id} className={`${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-50'} transition-colors duration-300`}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-medium text-lg">
                         {user.firstName?.charAt(0) || user.email?.charAt(0) || "U"}
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-white">
+                        <div className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>
                           {user.firstName} {user.lastName}
                         </div>
                         <div className="text-sm text-gray-400">

@@ -1,7 +1,9 @@
 import { User } from "lucide-react";
 import SettingSection from "./SettingSection";
+import { useTheme } from "../../context/ThemeContext";
 
 const Profile = () => {
+	const { isDarkMode } = useTheme();
 	return (
 		<SettingSection icon={User} title={"Profile"}>
 			<div className='flex flex-col sm:flex-row items-center mb-6'>
@@ -12,8 +14,8 @@ const Profile = () => {
 				/>
 
 				<div>
-					<h3 className='text-lg font-semibold text-gray-100'>System Admin</h3>
-					<p className='text-gray-400'>ecoride.admin@gmail.com</p>
+					<h3 className={`text-lg font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-800'} transition-colors duration-300`}>System Admin</h3>
+					<p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} transition-colors duration-300`}>ecoride.admin@gmail.com</p>
 				</div>
 			</div>
 

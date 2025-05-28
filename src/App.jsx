@@ -2,6 +2,7 @@ import { Route, Routes, Navigate, useLocation, Outlet } from "react-router-dom";
 
 import Sidebar from "./components/common/Sidebar";
 import ProtectedRoute from "./components/common/ProtectedRoute";
+import { useTheme } from "./context/ThemeContext";
 
 import OverviewPage from "./pages/OverviewPage";
 import ProductsPage from "./pages/ProductsPage";
@@ -14,12 +15,13 @@ import LoginPage from "./pages/LoginPage";
 
 // Layout component for authenticated pages
 const DashboardLayout = () => {
+	const { isDarkMode } = useTheme();
+
 	return (
-		<div className='flex h-screen bg-gray-900 text-gray-100 overflow-hidden'>
+		<div className={`flex h-screen overflow-hidden ${isDarkMode ? 'bg-dark-primary text-gray-100' : 'bg-light-primary text-gray-800'} transition-colors duration-300`}>
 			{/* BG */}
 			<div className='fixed inset-0 z-0 pointer-events-none'>
-				<div className='absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 opacity-80' />
-				{/* Removed backdrop-blur-sm div */}
+				<div className={`absolute inset-0 ${isDarkMode ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-gray-100 via-gray-200 to-gray-100'} opacity-80 transition-colors duration-300`} />
 			</div>
 
 			<Sidebar />
