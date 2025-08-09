@@ -39,13 +39,27 @@ const UsersPage = () => {
     riders: 0
   });
   const [actionInProgress, setActionInProgress] = useState(null);
+  // Single filters object to store all filter values
+  const [filters, setFilters] = useState({
+    search: '',
+    role: '',
+    status: '',
+    sex: '',
+    userRole: '',
+    vehicleType: '',
+    hasDocuments: undefined
+  });
+  
+  // Flag to track initial load
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
-  // Fetch users from API
+  // Fetch users only once on component mount
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const data = await userService.getAllUsers();
+        // Initial fetch with no filters
+        const data = await userService.getAllUsers({});
         console.log("Fetched users:", data);
         
         setUsers(data.users);
@@ -53,6 +67,7 @@ const UsersPage = () => {
         
         // Calculate stats using the helper function
         updateStats(data.users);
+        setInitialLoadComplete(true);
         
         setError(null);
       } catch (err) {
@@ -64,7 +79,7 @@ const UsersPage = () => {
     };
     
     fetchUsers();
-  }, []);
+  }, []); // Empty dependency array - only run once on mount
 
   // Handle user actions (approve, disapprove, delete)
   const handleUserAction = async (action, userId, data = {}) => {
@@ -149,36 +164,73 @@ const UsersPage = () => {
     });
   };
 
-  // Filter users
-  const handleFilterChange = (filters) => {
-    let result = [...users];
+  // Handle filter changes - apply filters client-side only
+  const handleFilterChange = ({ search, role, status, sex, userRole, vehicleType, hasDocuments }) => {
+    // Update filters state
+    setFilters({ search, role, status, sex, userRole, vehicleType, hasDocuments });
     
-    // Filter by role
-    if (filters.role) {
-      result = result.filter(user => user.role === filters.role);
-    }
+    // Only apply filters if we have users loaded
+    if (users.length === 0) return;
     
-    // Filter by status
-    if (filters.status === 'approved') {
-      result = result.filter(user => user.status === "approved");
-    } else if (filters.status === 'pending') {
-      result = result.filter(user => user.status === "pending");
-    } else if (filters.status === 'disapproved') {
-      result = result.filter(user => user.status === "disapproved");
-    }
+    // Start with all users
+    let filtered = [...users];
     
-    // Filter by search term
-    if (filters.search) {
-      const searchTerm = filters.search.toLowerCase();
-      result = result.filter(user => 
-        user.firstName?.toLowerCase().includes(searchTerm) ||
-        user.lastName?.toLowerCase().includes(searchTerm) ||
-        user.email?.toLowerCase().includes(searchTerm) ||
-        user.phone?.toLowerCase().includes(searchTerm)
+    // Apply search filter
+    if (search) {
+      const searchLower = search.toLowerCase();
+      filtered = filtered.filter(user => 
+        user.firstName?.toLowerCase().includes(searchLower) ||
+        user.lastName?.toLowerCase().includes(searchLower) ||
+        user.email?.toLowerCase().includes(searchLower) ||
+        user.phone?.toLowerCase().includes(searchLower)
       );
     }
     
-    setFilteredUsers(result);
+    // Apply role filter
+    if (role) {
+      filtered = filtered.filter(user => user.role === role);
+    }
+    
+    // Apply status filter
+    if (status) {
+      filtered = filtered.filter(user => user.status === status);
+    }
+    
+    // Apply sex filter
+    if (sex) {
+      filtered = filtered.filter(user => user.sex === sex);
+    }
+    
+    // Apply userRole filter (for customers)
+    if (userRole) {
+      filtered = filtered.filter(user => user.userRole === userRole);
+    }
+    
+    // Apply vehicleType filter (for riders)
+    if (vehicleType) {
+      filtered = filtered.filter(user => user.vehicleType === vehicleType);
+    }
+    
+    // Apply document filter
+    if (hasDocuments !== undefined) {
+      if (hasDocuments) {
+        // Has at least one document
+        filtered = filtered.filter(user => {
+          return user.photo || user.schoolIdDocument || user.staffFacultyIdDocument || 
+                 user.driverLicense || user.cor;
+        });
+      } else {
+        // Missing all documents
+        filtered = filtered.filter(user => {
+          return !user.photo && !user.schoolIdDocument && !user.staffFacultyIdDocument && 
+                 !user.driverLicense && !user.cor;
+        });
+      }
+    }
+    
+    // Update filtered users and stats
+    setFilteredUsers(filtered);
+    updateStats(filtered);
   };
 
   return (

@@ -1,0 +1,154 @@
+import React from "react";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
+import { motion } from "framer-motion";
+
+// Register ChartJS components
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+const VehicleTypeChart = ({ data }) => {
+  // Extract data for rider vehicle types
+  const motorcycleCount = data.riders["Single Motorcycle"] || 0;
+  const tricycleCount = data.riders["Tricycle"] || 0;
+  const cabCount = data.riders["Cab"] || 0;
+  
+  // Extract data for ride vehicle types
+  const bikeRides = data.rides.bike?.count || 0;
+  const autoRides = data.rides.auto?.count || 0;
+  const cabEconomyRides = data.rides.cabEconomy?.count || 0;
+  const cabPremiumRides = data.rides.cabPremium?.count || 0;
+
+  // Prepare chart data for rider vehicle types
+  const riderChartData = {
+    labels: ["Motorcycle", "Tricycle", "Cab"],
+    datasets: [
+      {
+        label: "Rider Vehicle Types",
+        data: [motorcycleCount, tricycleCount, cabCount],
+        backgroundColor: [
+          "rgba(255, 159, 64, 0.8)",
+          "rgba(75, 192, 192, 0.8)",
+          "rgba(153, 102, 255, 0.8)",
+        ],
+        borderColor: [
+          "rgba(255, 159, 64, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  // Prepare chart data for ride vehicle types
+  const rideChartData = {
+    labels: ["Bike", "Auto", "Cab Economy", "Cab Premium"],
+    datasets: [
+      {
+        label: "Ride Vehicle Types",
+        data: [bikeRides, autoRides, cabEconomyRides, cabPremiumRides],
+        backgroundColor: [
+          "rgba(255, 206, 86, 0.8)",
+          "rgba(54, 162, 235, 0.8)",
+          "rgba(255, 99, 132, 0.8)",
+          "rgba(75, 192, 192, 0.8)",
+        ],
+        borderColor: [
+          "rgba(255, 206, 86, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 99, 132, 1)",
+          "rgba(75, 192, 192, 1)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  // Chart options
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: {
+          color: "white",
+          font: {
+            size: 12,
+          },
+          padding: 20,
+        },
+      },
+    },
+  };
+
+  return (
+    <div className="h-full">
+      <h3 className="text-lg font-semibold text-white mb-4 print:text-gray-900">
+        Vehicle Type Distribution
+      </h3>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <h4 className="text-sm font-medium text-gray-400 mb-2 text-center print:text-gray-600">
+            Rider Vehicle Types
+          </h4>
+          <div className="h-48">
+            <Doughnut data={riderChartData} options={options} />
+          </div>
+          <div className="mt-2 grid grid-cols-3 gap-2 text-center">
+            <div>
+              <p className="text-xs text-gray-400 print:text-gray-600">Motorcycle</p>
+              <p className="text-sm font-medium text-white print:text-gray-900">{motorcycleCount}</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-400 print:text-gray-600">Tricycle</p>
+              <p className="text-sm font-medium text-white print:text-gray-900">{tricycleCount}</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-400 print:text-gray-600">Cab</p>
+              <p className="text-sm font-medium text-white print:text-gray-900">{cabCount}</p>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <h4 className="text-sm font-medium text-gray-400 mb-2 text-center print:text-gray-600">
+            Ride Vehicle Types
+          </h4>
+          <div className="h-48">
+            <Doughnut data={rideChartData} options={options} />
+          </div>
+          <div className="mt-2 grid grid-cols-4 gap-2 text-center">
+            <div>
+              <p className="text-xs text-gray-400 print:text-gray-600">Bike</p>
+              <p className="text-sm font-medium text-white print:text-gray-900">{bikeRides}</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-400 print:text-gray-600">Auto</p>
+              <p className="text-sm font-medium text-white print:text-gray-900">{autoRides}</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-400 print:text-gray-600">Cab Economy</p>
+              <p className="text-sm font-medium text-white print:text-gray-900">{cabEconomyRides}</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-400 print:text-gray-600">Cab Premium</p>
+              <p className="text-sm font-medium text-white print:text-gray-900">{cabPremiumRides}</p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
+export default VehicleTypeChart;

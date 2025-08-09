@@ -28,8 +28,12 @@ export const userService = {
       // Build query params
       let queryParams = new URLSearchParams();
       if (filters.role) queryParams.append('role', filters.role);
-      if (filters.approved !== undefined) queryParams.append('approved', filters.approved);
+      if (filters.status) queryParams.append('status', filters.status);
       if (filters.search) queryParams.append('search', filters.search);
+      if (filters.sex) queryParams.append('sex', filters.sex);
+      if (filters.userRole) queryParams.append('userRole', filters.userRole);
+      if (filters.vehicleType) queryParams.append('vehicleType', filters.vehicleType);
+      if (filters.hasDocuments !== undefined) queryParams.append('hasDocuments', filters.hasDocuments);
       
       const queryString = queryParams.toString();
       const url = `/admin/users${queryString ? `?${queryString}` : ''}`;
@@ -90,10 +94,32 @@ export const userService = {
   updateUser: async (userId, userData) => {
     try {
       const request = createAuthenticatedRequest();
-      const response = await request.put(`/admin/users/${userId}`, userData);
+      
+      // Create a copy of userData to avoid modifying the original
+      const updatedData = { ...userData };
+      
+      // Handle special fields if needed
+      console.log(`Updating user with ID: ${userId}`, updatedData);
+      
+      const response = await request.put(`/admin/users/${userId}`, updatedData);
+      console.log('Update response:', response.data);
       return response.data.user;
     } catch (error) {
       console.error(`Error updating user ${userId}:`, error.response?.data || error.message);
+      throw error;
+    }
+  },
+  
+  // Add penalty to user
+  addPenalty: async (userId, data = {}) => {
+    try {
+      console.log(`Adding penalty to user with ID: ${userId}`, data);
+      const request = createAuthenticatedRequest();
+      const response = await request.put(`/admin/users/${userId}/penalty`, data);
+      console.log('Add penalty response:', response.data);
+      return response.data.user;
+    } catch (error) {
+      console.error(`Error adding penalty to user ${userId}:`, error.response?.data || error.message);
       throw error;
     }
   },
