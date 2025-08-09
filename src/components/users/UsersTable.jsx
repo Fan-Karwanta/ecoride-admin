@@ -53,7 +53,7 @@ const UsersTable = ({
         hasDocuments: documentFilter === "yes" ? true : documentFilter === "no" ? false : undefined
       });
     }
-  }, [searchTerm, roleFilter, statusFilter, sexFilter, userRoleFilter, vehicleTypeFilter, documentFilter, onFilterChange]);
+  }, [searchTerm, roleFilter, statusFilter, sexFilter, userRoleFilter, vehicleTypeFilter, documentFilter]);
 
   // Handle search input
   const handleSearch = (e) => {

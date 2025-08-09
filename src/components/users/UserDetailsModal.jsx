@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { X, CheckCircle, XCircle, Trash2, Edit3, Image as ImageIcon, ZoomIn, ZoomOut, Maximize, Minimize, RotateCw, Download } from 'lucide-react';
+import { X, CheckCircle, XCircle, Trash2, Edit3, Image as ImageIcon, ZoomIn, ZoomOut, Maximize, Minimize, RotateCw, Download, Loader } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { userService } from '../../services/userService';
 import { useTheme } from '../../context/ThemeContext';
