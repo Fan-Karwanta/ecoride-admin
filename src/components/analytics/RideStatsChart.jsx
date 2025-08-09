@@ -10,6 +10,7 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { motion } from "framer-motion";
+import { useTheme } from "../../context/ThemeContext";
 
 // Register ChartJS components
 ChartJS.register(
@@ -22,6 +23,8 @@ ChartJS.register(
 );
 
 const RideStatsChart = ({ data }) => {
+  const { isDarkMode } = useTheme();
+  
   // Extract ride data by vehicle type
   const vehicleTypes = ["bike", "auto", "cabEconomy", "cabPremium"];
   const vehicleLabels = ["Bike", "Auto", "Cab Economy", "Cab Premium"];
@@ -63,7 +66,7 @@ const RideStatsChart = ({ data }) => {
       legend: {
         position: "top",
         labels: {
-          color: "white",
+          color: isDarkMode ? "white" : "#374151",
           font: {
             size: 12,
           },
@@ -72,25 +75,25 @@ const RideStatsChart = ({ data }) => {
       title: {
         display: false,
         text: "Ride Statistics by Vehicle Type",
-        color: "white",
+        color: isDarkMode ? "white" : "#374151",
       },
     },
     scales: {
       y: {
         beginAtZero: true,
         ticks: {
-          color: "rgba(255, 255, 255, 0.7)",
+          color: isDarkMode ? "rgba(255, 255, 255, 0.7)" : "rgba(55, 65, 81, 0.7)",
         },
         grid: {
-          color: "rgba(255, 255, 255, 0.1)",
+          color: isDarkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(55, 65, 81, 0.1)",
         },
       },
       x: {
         ticks: {
-          color: "rgba(255, 255, 255, 0.7)",
+          color: isDarkMode ? "rgba(255, 255, 255, 0.7)" : "rgba(55, 65, 81, 0.7)",
         },
         grid: {
-          color: "rgba(255, 255, 255, 0.1)",
+          color: isDarkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(55, 65, 81, 0.1)",
         },
       },
     },
@@ -112,7 +115,9 @@ const RideStatsChart = ({ data }) => {
 
   return (
     <div className="h-full">
-      <h3 className="text-lg font-semibold text-white mb-4 print:text-gray-900">
+      <h3 className={`text-lg font-semibold mb-4 print:text-gray-900 transition-colors duration-300 ${
+        isDarkMode ? 'text-white' : 'text-gray-900'
+      }`}>
         Ride Statistics by Vehicle Type
       </h3>
 
@@ -132,8 +137,12 @@ const RideStatsChart = ({ data }) => {
           transition={{ delay: 0.2 }}
         >
           <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left text-gray-300 print:text-gray-800">
-              <thead className="text-xs uppercase bg-gray-700 text-gray-400 print:bg-gray-100 print:text-gray-700">
+            <table className={`w-full text-sm text-left print:text-gray-800 transition-colors duration-300 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-700'
+            }`}>
+              <thead className={`text-xs uppercase print:bg-gray-100 print:text-gray-700 transition-colors duration-300 ${
+                isDarkMode ? 'bg-gray-700 text-gray-400' : 'bg-gray-100 text-gray-700'
+              }`}>
                 <tr>
                   <th className="px-4 py-3">Vehicle Type</th>
                   <th className="px-4 py-3">Rides</th>
@@ -154,7 +163,9 @@ const RideStatsChart = ({ data }) => {
                   return (
                     <tr
                       key={type}
-                      className="border-b border-gray-700 print:border-gray-200"
+                      className={`border-b print:border-gray-200 transition-colors duration-300 ${
+                        isDarkMode ? 'border-gray-700' : 'border-gray-200'
+                      }`}
                     >
                       <td className="px-4 py-3 font-medium">{vehicleLabels[index]}</td>
                       <td className="px-4 py-3">{rides}</td>
@@ -165,7 +176,9 @@ const RideStatsChart = ({ data }) => {
                     </tr>
                   );
                 })}
-                <tr className="bg-gray-700 font-medium print:bg-gray-100">
+                <tr className={`font-medium print:bg-gray-100 transition-colors duration-300 ${
+                  isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
+                }`}>
                   <td className="px-4 py-3">Total</td>
                   <td className="px-4 py-3">{data.totalRides || 0}</td>
                   <td className="px-4 py-3">{formatCurrency(data.totalRevenue || 0)}</td>

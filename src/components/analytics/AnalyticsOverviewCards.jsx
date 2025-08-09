@@ -1,8 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Users, Car, MapPin, DollarSign } from "lucide-react";
+import { useTheme } from "../../context/ThemeContext";
 
 const AnalyticsOverviewCards = ({ data }) => {
+  const { isDarkMode } = useTheme();
   // Format currency
   const formatCurrency = (value) => {
     return new Intl.NumberFormat("en-US", {
@@ -58,14 +60,22 @@ const AnalyticsOverviewCards = ({ data }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
-          className="bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-xl p-6 border border-gray-600 print:bg-white print:border print:border-gray-200 print:text-black"
+          className={`rounded-xl p-6 print:bg-white print:border print:border-gray-200 print:text-black transition-colors duration-300 ${
+            isDarkMode 
+              ? 'bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-lg border border-gray-600' 
+              : 'bg-white shadow-lg border border-gray-200'
+          }`}
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-400 print:text-gray-600">
+              <p className={`text-sm font-medium print:text-gray-600 transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>
                 {card.title}
               </p>
-              <p className="mt-1 text-2xl font-semibold text-white print:text-gray-900">
+              <p className={`mt-1 text-2xl font-semibold print:text-gray-900 transition-colors duration-300 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>
                 {card.value}
               </p>
             </div>
@@ -77,7 +87,9 @@ const AnalyticsOverviewCards = ({ data }) => {
               />
             </div>
           </div>
-          <p className="mt-2 text-sm text-gray-400 print:text-gray-600">
+          <p className={`mt-2 text-sm print:text-gray-600 transition-colors duration-300 ${
+            isDarkMode ? 'text-gray-400' : 'text-gray-600'
+          }`}>
             {card.description}
           </p>
         </motion.div>

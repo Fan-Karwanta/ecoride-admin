@@ -2,11 +2,14 @@ import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { motion } from "framer-motion";
+import { useTheme } from "../../context/ThemeContext";
 
 // Register ChartJS components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const UserGenderChart = ({ data }) => {
+  const { isDarkMode } = useTheme();
+  
   // Calculate totals
   const maleTotal = data.male.total || 0;
   const femaleTotal = data.female.total || 0;
@@ -37,7 +40,7 @@ const UserGenderChart = ({ data }) => {
       legend: {
         position: "bottom",
         labels: {
-          color: "white",
+          color: isDarkMode ? "white" : "#374151",
           font: {
             size: 12,
           },
@@ -60,7 +63,9 @@ const UserGenderChart = ({ data }) => {
 
   return (
     <div className="h-full">
-      <h3 className="text-lg font-semibold text-white mb-4 print:text-gray-900">
+      <h3 className={`text-lg font-semibold mb-4 print:text-gray-900 transition-colors duration-300 ${
+        isDarkMode ? 'text-white' : 'text-gray-900'
+      }`}>
         User Gender Distribution
       </h3>
       
@@ -76,22 +81,32 @@ const UserGenderChart = ({ data }) => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <h4 className="text-sm font-medium text-blue-400 print:text-blue-600">
+              <h4 className={`text-sm font-medium print:text-blue-600 transition-colors duration-300 ${
+                isDarkMode ? 'text-blue-400' : 'text-blue-600'
+              }`}>
                 Male Users: {maleTotal}
               </h4>
               <div className="mt-1 flex items-center text-sm">
-                <span className="text-gray-400 print:text-gray-600 mr-2">
+                <span className={`print:text-gray-600 mr-2 transition-colors duration-300 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   Customers:
                 </span>
-                <span className="text-white print:text-gray-900">
+                <span className={`print:text-gray-900 transition-colors duration-300 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>
                   {maleCustomers}
                 </span>
               </div>
               <div className="mt-1 flex items-center text-sm">
-                <span className="text-gray-400 print:text-gray-600 mr-2">
+                <span className={`print:text-gray-600 mr-2 transition-colors duration-300 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   Riders:
                 </span>
-                <span className="text-white print:text-gray-900">
+                <span className={`print:text-gray-900 transition-colors duration-300 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>
                   {maleRiders}
                 </span>
               </div>
@@ -102,22 +117,32 @@ const UserGenderChart = ({ data }) => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <h4 className="text-sm font-medium text-pink-400 print:text-pink-600">
+              <h4 className={`text-sm font-medium print:text-pink-600 transition-colors duration-300 ${
+                isDarkMode ? 'text-pink-400' : 'text-pink-600'
+              }`}>
                 Female Users: {femaleTotal}
               </h4>
               <div className="mt-1 flex items-center text-sm">
-                <span className="text-gray-400 print:text-gray-600 mr-2">
+                <span className={`print:text-gray-600 mr-2 transition-colors duration-300 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   Customers:
                 </span>
-                <span className="text-white print:text-gray-900">
+                <span className={`print:text-gray-900 transition-colors duration-300 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>
                   {femaleCustomers}
                 </span>
               </div>
               <div className="mt-1 flex items-center text-sm">
-                <span className="text-gray-400 print:text-gray-600 mr-2">
+                <span className={`print:text-gray-600 mr-2 transition-colors duration-300 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   Riders:
                 </span>
-                <span className="text-white print:text-gray-900">
+                <span className={`print:text-gray-900 transition-colors duration-300 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>
                   {femaleRiders}
                 </span>
               </div>

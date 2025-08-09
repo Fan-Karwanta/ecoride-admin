@@ -2,11 +2,14 @@ import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { motion } from "framer-motion";
+import { useTheme } from "../../context/ThemeContext";
 
 // Register ChartJS components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const VehicleTypeChart = ({ data }) => {
+  const { isDarkMode } = useTheme();
+  
   // Extract data for rider vehicle types
   const motorcycleCount = data.riders["Single Motorcycle"] || 0;
   const tricycleCount = data.riders["Tricycle"] || 0;
@@ -72,7 +75,7 @@ const VehicleTypeChart = ({ data }) => {
       legend: {
         position: "bottom",
         labels: {
-          color: "white",
+          color: isDarkMode ? "white" : "#374151",
           font: {
             size: 12,
           },
@@ -84,7 +87,9 @@ const VehicleTypeChart = ({ data }) => {
 
   return (
     <div className="h-full">
-      <h3 className="text-lg font-semibold text-white mb-4 print:text-gray-900">
+      <h3 className={`text-lg font-semibold mb-4 print:text-gray-900 transition-colors duration-300 ${
+        isDarkMode ? 'text-white' : 'text-gray-900'
+      }`}>
         Vehicle Type Distribution
       </h3>
 
@@ -94,7 +99,9 @@ const VehicleTypeChart = ({ data }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <h4 className="text-sm font-medium text-gray-400 mb-2 text-center print:text-gray-600">
+          <h4 className={`text-sm font-medium mb-2 text-center print:text-gray-600 transition-colors duration-300 ${
+            isDarkMode ? 'text-gray-400' : 'text-gray-600'
+          }`}>
             Rider Vehicle Types
           </h4>
           <div className="h-48">
@@ -102,16 +109,28 @@ const VehicleTypeChart = ({ data }) => {
           </div>
           <div className="mt-2 grid grid-cols-3 gap-2 text-center">
             <div>
-              <p className="text-xs text-gray-400 print:text-gray-600">Motorcycle</p>
-              <p className="text-sm font-medium text-white print:text-gray-900">{motorcycleCount}</p>
+              <p className={`text-xs print:text-gray-600 transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>Motorcycle</p>
+              <p className={`text-sm font-medium print:text-gray-900 transition-colors duration-300 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>{motorcycleCount}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-400 print:text-gray-600">Tricycle</p>
-              <p className="text-sm font-medium text-white print:text-gray-900">{tricycleCount}</p>
+              <p className={`text-xs print:text-gray-600 transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>Tricycle</p>
+              <p className={`text-sm font-medium print:text-gray-900 transition-colors duration-300 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>{tricycleCount}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-400 print:text-gray-600">Cab</p>
-              <p className="text-sm font-medium text-white print:text-gray-900">{cabCount}</p>
+              <p className={`text-xs print:text-gray-600 transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>Cab</p>
+              <p className={`text-sm font-medium print:text-gray-900 transition-colors duration-300 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>{cabCount}</p>
             </div>
           </div>
         </motion.div>
@@ -121,7 +140,9 @@ const VehicleTypeChart = ({ data }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <h4 className="text-sm font-medium text-gray-400 mb-2 text-center print:text-gray-600">
+          <h4 className={`text-sm font-medium mb-2 text-center print:text-gray-600 transition-colors duration-300 ${
+            isDarkMode ? 'text-gray-400' : 'text-gray-600'
+          }`}>
             Ride Vehicle Types
           </h4>
           <div className="h-48">
@@ -129,20 +150,36 @@ const VehicleTypeChart = ({ data }) => {
           </div>
           <div className="mt-2 grid grid-cols-4 gap-2 text-center">
             <div>
-              <p className="text-xs text-gray-400 print:text-gray-600">Bike</p>
-              <p className="text-sm font-medium text-white print:text-gray-900">{bikeRides}</p>
+              <p className={`text-xs print:text-gray-600 transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>Bike</p>
+              <p className={`text-sm font-medium print:text-gray-900 transition-colors duration-300 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>{bikeRides}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-400 print:text-gray-600">Auto</p>
-              <p className="text-sm font-medium text-white print:text-gray-900">{autoRides}</p>
+              <p className={`text-xs print:text-gray-600 transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>Auto</p>
+              <p className={`text-sm font-medium print:text-gray-900 transition-colors duration-300 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>{autoRides}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-400 print:text-gray-600">Cab Economy</p>
-              <p className="text-sm font-medium text-white print:text-gray-900">{cabEconomyRides}</p>
+              <p className={`text-xs print:text-gray-600 transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>Cab Economy</p>
+              <p className={`text-sm font-medium print:text-gray-900 transition-colors duration-300 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>{cabEconomyRides}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-400 print:text-gray-600">Cab Premium</p>
-              <p className="text-sm font-medium text-white print:text-gray-900">{cabPremiumRides}</p>
+              <p className={`text-xs print:text-gray-600 transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>Cab Premium</p>
+              <p className={`text-sm font-medium print:text-gray-900 transition-colors duration-300 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>{cabPremiumRides}</p>
             </div>
           </div>
         </motion.div>

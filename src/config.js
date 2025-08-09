@@ -5,4 +5,4 @@
 // export const API_BASE_URL = 'http://localhost:3000';
 
 // For production (uncomment when deploying)
-export const API_BASE_URL = 'https://ecoride-server-deploy-2.onrender.com';
+ export const API_BASE_URL = 'https://ecoride-server-deploy-2.onrender.com';
