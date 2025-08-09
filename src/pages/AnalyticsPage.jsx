@@ -5,6 +5,7 @@ import Header from "../components/common/Header";
 import analyticsService from "../services/analyticsService";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { useTheme } from "../context/ThemeContext";
 
 // Import our new analytics components
 import UserGenderChart from "../components/analytics/UserGenderChart";
@@ -14,6 +15,7 @@ import AnalyticsOverviewCards from "../components/analytics/AnalyticsOverviewCar
 import TimeFilter from "../components/analytics/TimeFilter";
 
 const AnalyticsPage = () => {
+	const { isDarkMode } = useTheme();
 	const [timeFilter, setTimeFilter] = useState("24h");
 	const [analyticsData, setAnalyticsData] = useState(null);
 	const [loading, setLoading] = useState(true);
@@ -107,15 +109,15 @@ const AnalyticsPage = () => {
 	}, [timeFilter]);
 
 	return (
-		<div className="flex-1 overflow-auto relative z-10 bg-gray-900 print:bg-white print:text-black">
+		<div className={`flex-1 overflow-auto relative z-10 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'} print:bg-white print:text-black transition-colors duration-300`}>
 			<Header title={"Analytics Dashboard"} />
 
 			<main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
 				{/* Controls section */}
 				<div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 print:hidden">
 					<div>
-						<h1 className="text-2xl font-bold text-white mb-2">EcoRide Analytics</h1>
-						<p className="text-gray-400">
+						<h1 className={`text-2xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>EcoRide Analytics</h1>
+						<p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} transition-colors duration-300`}>
 							Comprehensive data on users, rides, and vehicle usage
 						</p>
 					</div>
@@ -131,7 +133,7 @@ const AnalyticsPage = () => {
 						<div className="flex gap-2">
 							<button
 								onClick={fetchAnalyticsData}
-								className="flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors"
+								className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${isDarkMode ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}
 								disabled={loading}
 							>
 								<RefreshCw size={16} className={loading ? "animate-spin" : ""} />
@@ -139,7 +141,7 @@ const AnalyticsPage = () => {
 							</button>
 							<button
 								onClick={generateReport}
-								className="flex items-center gap-2 px-4 py-2 bg-blue-700 hover:bg-blue-600 rounded-lg text-white transition-colors"
+								className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white transition-colors ${isDarkMode ? 'bg-blue-700 hover:bg-blue-600' : 'bg-blue-600 hover:bg-blue-700'}`}
 								disabled={loading || !analyticsData}
 							>
 								<Download size={16} />
@@ -147,7 +149,7 @@ const AnalyticsPage = () => {
 							</button>
 							<button
 								onClick={printReport}
-								className="flex items-center gap-2 px-4 py-2 bg-green-700 hover:bg-green-600 rounded-lg text-white transition-colors"
+								className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white transition-colors ${isDarkMode ? 'bg-green-700 hover:bg-green-600' : 'bg-green-600 hover:bg-green-700'}`}
 								disabled={loading || !analyticsData}
 							>
 								<Printer size={16} />
@@ -160,7 +162,7 @@ const AnalyticsPage = () => {
 				{/* Report content */}
 				<div
 					ref={reportRef}
-					className="bg-gray-800 rounded-xl p-6 print:bg-white print:shadow-none"
+					className={`rounded-xl p-6 print:bg-white print:shadow-none transition-colors duration-300 ${isDarkMode ? 'bg-gray-800' : 'bg-white shadow-lg'}`}
 				>
 					{/* Report header - only visible when printing */}
 					<div className="hidden print:block mb-6">
@@ -198,7 +200,7 @@ const AnalyticsPage = () => {
 									initial={{ opacity: 0, y: 20 }}
 									animate={{ opacity: 1, y: 0 }}
 									transition={{ delay: 0.1 }}
-									className="bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-xl p-6 print:bg-white print:shadow print:border"
+									className={`rounded-xl p-6 print:bg-white print:shadow print:border transition-colors duration-300 ${isDarkMode ? 'bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-lg' : 'bg-white shadow-lg border border-gray-200'}`}
 								>
 									<UserGenderChart data={analyticsData.userStats.gender} />
 								</motion.div>
@@ -208,7 +210,7 @@ const AnalyticsPage = () => {
 									initial={{ opacity: 0, y: 20 }}
 									animate={{ opacity: 1, y: 0 }}
 									transition={{ delay: 0.2 }}
-									className="bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-xl p-6 print:bg-white print:shadow print:border"
+									className={`rounded-xl p-6 print:bg-white print:shadow print:border transition-colors duration-300 ${isDarkMode ? 'bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-lg' : 'bg-white shadow-lg border border-gray-200'}`}
 								>
 									<VehicleTypeChart data={analyticsData.vehicleStats} />
 								</motion.div>
@@ -218,7 +220,7 @@ const AnalyticsPage = () => {
 									initial={{ opacity: 0, y: 20 }}
 									animate={{ opacity: 1, y: 0 }}
 									transition={{ delay: 0.3 }}
-									className="bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-xl p-6 lg:col-span-2 print:bg-white print:shadow print:border"
+									className={`rounded-xl p-6 lg:col-span-2 print:bg-white print:shadow print:border transition-colors duration-300 ${isDarkMode ? 'bg-gray-700 bg-opacity-50 backdrop-filter backdrop-blur-lg' : 'bg-white shadow-lg border border-gray-200'}`}
 								>
 									<RideStatsChart data={analyticsData} />
 								</motion.div>
@@ -233,7 +235,7 @@ const AnalyticsPage = () => {
 						</div>
 					) : (
 						<div className="flex justify-center items-center h-96">
-							<p className="text-gray-400">No data available</p>
+							<p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} transition-colors duration-300`}>No data available</p>
 						</div>
 					)}
 				</div>
